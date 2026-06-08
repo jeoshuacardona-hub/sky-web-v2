@@ -6,7 +6,7 @@ export default function NotFound() {
     <Result
       status="404"
       title="404"
-      subTitle="Lo sentimos, la página que buscas no existe."
+      subTitle="Página no encontrada"
       extra={
         <Button type="primary" onClick={() => history.push('/dashboard')}>
           Volver al Inicio
