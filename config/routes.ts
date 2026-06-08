@@ -26,7 +26,4 @@ export default [
     path: '/',
     redirect: '/dashboard',
   },
-  {
-    component: './404',
-  },
 ] as import('@umijs/max').RouteConfig[];
