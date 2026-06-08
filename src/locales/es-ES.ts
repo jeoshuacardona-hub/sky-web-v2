@@ -1,61 +1,55 @@
-import antd from 'antd/es/locale/es_ES';
-import { MenuSettings } from '@ant-design/pro-components';
-
-const esES: MenuSettings = {
-  'app.setting.pagestyle': 'Configuración de estilo de página',
-  'app.setting.pagestyle.dark': 'Modo oscuro',
-  'app.setting.pagestyle.light': 'Modo claro',
-  'app.content-width': 'Ancho del contenido',
-  'app.content-width.Fixed': 'Fijo',
-  'app.content-width.Fluid': 'Fluido',
-  'app.themecolor': 'Color del tema',
-  'app.themecolor.dust': 'Rojo polvo',
-  'app.themecolor.volcano': 'Volcán',
-  'app.themecolor.sunset': 'Atardecer',
-  'app.themecolor.cyan': 'Cian',
-  'app.themecolor.green': 'Verde',
-  'app.themecolor.daybreak': 'Amanecer (por defecto)',
-  'app.themecolor.geekblue': 'Azul geek',
-  'app.themecolor.purple': 'Púrpura',
-  'app.navigationmode': 'Modo de navegación',
-  'app.navigationmode.side': 'Menú lateral',
-  'app.navigationmode.top': 'Menú superior',
-  'app.setting.i18n': 'Internacionalización',
-  'app.setting.content-width': 'Ancho del contenido',
-  'app.setting.content-width.fixed': 'Fijo',
-  'app.setting.content-width.fluid': 'Fluido',
-  'app.setting.themecolor': 'Color del tema',
-  'app.setting.navigationmode': 'Modo de navegación',
-  'app.setting.fixedheader': 'Cabecera fija',
-  'app.setting.fixedsidebar': 'Barra lateral fija',
-  'app.setting.fixedsidebar.hint': 'Funciona en modo de menú lateral',
-  'app.setting.hideheader': 'Ocultar cabecera al hacer scroll',
-  'app.setting.hideheader.hint': 'Funciona cuando la cabecera está oculta',
-  'app.setting.othersettings': 'Otras configuraciones',
-  'app.setting.weakmode': 'Modo débil',
-  'app.setting.copy': 'Copiar configuración',
-  'app.setting.copyinfo': 'Copiado exitosamente, por favor reemplaza defaultSettings en src/config/defaultSettings.ts',
-  'app.setting.production.hint': 'El panel de configuración solo se muestra en el entorno de desarrollo, por favor modifícalo manualmente',
+import antd from \"antd/es/locale/es_ES\";
+const esES = {
+  \"navBar.lang\": \"Idiomas\",
+  \"app.title\": \"Sky Web\",
+  \"app.menu.dashboard\": \"Dashboard\",
+  \"app.menu.client\": \"Área Cliente\",
+  \"app.login.login\": \"Iniciar Sesión\",
+  \"app.login.username\": \"Usuario\",
+  \"app.login.password\": \"Contraseña\",
+  \"app.login.submit\": \"Entrar\",
 };
+export default { ...antd, ...esES };
+ENDLOCALE
 
-export default {
-  ...antd,
-  ...esES,
-  'navBar.lang': 'Idiomas',
-  'app.title': 'Sky Web',
-  'app.preview.down.block': 'Descargar esta página en tu proyecto local',
-  'app.welcome.link': 'Bienvenido a Sky Web',
-  'app.gettingstarted': 'Comenzar',
-  'app.menu.dashboard': 'Dashboard',
-  'app.menu.client': 'Área Cliente',
-  'app.menu.metrics': 'Métricas',
-  'app.menu.settings': 'Configuración',
-  'app.menu.account': 'Mi Cuenta',
-  'app.login.login': 'Iniciar Sesión',
-  'app.login.username': 'Usuario',
-  'app.login.password': 'Contraseña',
-  'app.login.remember': 'Recordarme',
-  'app.login.forgotpassword': '¿Olvidaste tu contraseña?',
-  'app.login.submit': 'Entrar',
-  'app.login.otherlogin': 'Otros métodos de inicio de sesión',
+# 2. Actualizar configuración
+cat > config/defaultSettings.ts << \"ENDSETTINGS\"
+import { ProLayoutProps } from \"@ant-design/pro-components\";
+const Settings: ProLayoutProps = {
+  navTheme: \"light\",
+  colorPrimary: \"#1890ff\",
+  layout: \"side\",
+  contentWidth: \"Fluid\",
+  fixedHeader: true,
+  fixSiderbar: true,
+  title: \"Sky Web\",
+  pwa: true,
+  logo: \"/logo.svg\",
 };
+export default Settings;
+ENDSETTINGS
+
+# 3. Crear logo Sky Web
+cat > public/logo.svg << \"ENDLOGO\"
+<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 50\">
+  <defs><linearGradient id=\"g\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"0%\">
+    <stop offset=\"0%\" style=\"stop-color:#1890ff\"/><stop offset=\"100%\" style=\"stop-color:#696cff\"/>
+  </linearGradient></defs>
+  <circle cx=\"25\" cy=\"25\" r=\"20\" fill=\"url(#g)\"/>
+  <path d=\"M15 25 L22 32 L35 18\" stroke=\"white\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/>
+  <text x=\"55\" y=\"32\" font-family=\"Arial\" font-size=\"24\" font-weight=\"bold\" fill=\"#1890ff\">Sky Web</text>
+</svg>
+ENDLOGO
+
+# 4. Rutas en español
+cat > config/routes.ts << \"ENDROUTES\"
+export default [
+  { path: \"/user\", layout: false, routes: [{ name: \"login\", path: \"/user/login\", component: \"./user/login\" }] },
+  { name: \"dashboard\", icon: \"DashboardOutlined\", path: \"/dashboard\", component: \"./Dashboard\" },
+  { name: \"area-cliente\", icon: \"UserOutlined\", path: \"/client-dashboard\", component: \"./ClientDashboard\" },
+  { path: \"/\", redirect: \"/dashboard\" },
+  { component: \"./404\" },
+] as import(\"@umijs/max\").RouteConfig[];
+ENDROUTES
+
+echo \"✅ Archivos de localización creados\"
