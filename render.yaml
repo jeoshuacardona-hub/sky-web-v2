@@ -2,6 +2,11 @@ services:
   - type: web
     name: sky-web-v2
     env: node
-    buildCommand: npm install
-    startCommand: node server.js
+    buildCommand: npm install && npm run build
+    startCommand: bash render-start.sh
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
     plan: free
