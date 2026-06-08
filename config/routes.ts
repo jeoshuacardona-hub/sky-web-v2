@@ -12,6 +12,12 @@
  */
 export default [
   {
+    name: "area-cliente",
+    icon: "dashboard",
+    path: "/client-dashboard",
+    component: "./ClientDashboard",
+  },
+  {
     path: '/user',
     layout: false,
     routes: [
