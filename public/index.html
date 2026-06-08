@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html><head><title>Sky Web - Área Cliente</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:1200px;margin:0 auto;padding:20px;background:#f5f7fa}
+h1{color:#1a202c;margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-bottom:30px}
+.card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.card h3{margin:0 0 8px 0;color:#4a5568;font-size:14px;text-transform:uppercase}
+.card .value{font-size:32px;font-weight:700;color:#2d3748}
+.card .icon{font-size:40px;margin-bottom:12px}
+</style></head>
+<body>
+<h1>👋 Área de Cliente - Sky Web</h1>
+<div class="grid" id="metrics"></div>
+<script>
+fetch('/api/metrics').then(r=>r.json()).then(d=>{
+  const cards=[
+    {icon:'👥',title:'Clientes Atendidos',value:d.clientesAtendidos},
+    {icon:'💰',title:'Dinero Generado',value:'$'+d.dineroGenerado.toLocaleString()},
+    {icon:'❌',title:'Clientes Abandonados',value:d.clientesAbandonados},
+    {icon:'✅',title:'Comprobantes Verificados',value:d.comprobantesVerificados},
+    {icon:'💬',title:'Mensajes WhatsApp',value:d.mensajesWhatsApp},
+    {icon:'📈',title:'Tasa Conversión',value:d.tasaConversion+'%'}
+  ];
+  document.getElementById('metrics').innerHTML=cards.map(c=>
+    '<div class="card"><div class="icon">'+c.icon+'</div><h3>'+c.title+'</h3><div class="value">'+c.value+'</div></div>'
+  ).join('');
+});
+</script>
+</body></html>
