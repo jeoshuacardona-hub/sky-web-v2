@@ -6,26 +6,19 @@ import { fetchClientMetrics, type ClientMetrics } from '@/services/clientApi';
 export default function ClientDashboard() {
   const [metrics, setMetrics] = useState<ClientMetrics | null>(null);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchClientMetrics().then(setMetrics).finally(() => setLoading(false));
-  }, []);
-
+  useEffect(() => { fetchClientMetrics().then(setMetrics).finally(() => setLoading(false)); }, []);
   if (loading) return <div style={{textAlign:'center',padding:80}}><Spin size="large"/></div>;
-
   const columns = [
     { title: 'Concepto', dataIndex: 'name', key: 'name' },
     { title: 'Cantidad', dataIndex: 'value', key: 'value' },
     { title: 'Estado', dataIndex: 'status', key: 'status', render: (s:string) => <Tag color={s==='Verificado'?'green':s==='Pendiente'?'orange':'default'}>{s}</Tag> },
     { title: 'Fecha', dataIndex: 'date', key: 'date' },
   ];
-
   const recentData = [
     { key:'1', name:'Pago Suscripción Mensual', value:'$120.000', status:'Verificado', date:'Hoy' },
     { key:'2', name:'Bot Configurado', value:'Activo', status:'Verificado', date:'Ayer' },
     { key:'3', name:'Reembolso Parcial', value:'$45.000', status:'Pendiente', date:'3 días' },
   ];
-
   return (
     <div style={{padding:24,background:'#f5f7fa',minHeight:'100vh'}}>
       <h1 style={{fontSize:24,fontWeight:700,marginBottom:24}}>👋 Área de Cliente - Sky Web</h1>
